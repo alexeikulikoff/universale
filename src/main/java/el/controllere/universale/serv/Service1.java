@@ -20,7 +20,7 @@ public class Service1 extends AbstractService implements UService {
 	@Override
 	public Optional<UEntity> save(UDto dto) throws CustomException {
 
-		Entity1 e1 = (Entity1) convertDto2Entity(dto, Entity1.class);
+		Entity1 e1 = (Entity1) toEntity(dto, Entity1.class);
 
 		if (e1 != null) {
 

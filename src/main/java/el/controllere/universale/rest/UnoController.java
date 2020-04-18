@@ -1,7 +1,6 @@
 package el.controllere.universale.rest;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +19,6 @@ import com.google.gson.Gson;
 
 import el.controllere.universale.Response;
 import el.controllere.universale.domain.UEntity;
-import el.controllere.universale.dto.Dto1;
-import el.controllere.universale.dto.UDto;
 import el.controllere.universale.exception.CustomException;
 import el.controllere.universale.repo.Repository1;
 import el.controllere.universale.repo.Repository2;
@@ -108,25 +104,7 @@ public class UnoController extends AbstractController {
 			result.setMessage("error");
 		}
 		return result;
-
 	}
 
-	@GetMapping("/greeting")
-	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
-			Model model) throws NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException, CustomException {
-
-		UDto dto1 = new Dto1("Piter11", "Gast12");
-
-		String entityName = "Entity1";
-
-		UService service = getService(entityName);
-
-		service.save(dto1);
-
-		model.addAttribute("name", name);
-
-		return "greeting";
-	}
 
 }

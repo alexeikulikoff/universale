@@ -39,11 +39,8 @@ abstract class AbstractController {
 	protected UService getService(String entityName) throws CustomException {
 
 		Clazz clazz = classMap.get(entityName);
-
 		CrudRepository<?, ?> repository = clazz.getRepository();
-
 		Class<? extends UService> serviceClass = clazz.getServiceClass();
-
 		Constructor<?> constructor;
 		UService service;
 		try {
