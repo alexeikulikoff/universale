@@ -2,7 +2,7 @@ package el.controllere.universale.dto;
 
 import java.time.LocalDate;
 
-public class Dto3 implements RootDto {
+public class Dto3 implements UDto {
 
 	private Long id;
 	private String firstName;
@@ -57,6 +57,12 @@ public class Dto3 implements RootDto {
 
 	public void setSalary(Long salary) {
 		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		return "Dto3 [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
+				+ ", salary=" + salary + "]";
 	}
 
 }

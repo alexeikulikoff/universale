@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Entity3 implements Serializable, RootEntity {
+public class Entity3 implements Serializable, UEntity {
 	/**
 	 * 
 	 */
@@ -29,6 +29,10 @@ public class Entity3 implements Serializable, RootEntity {
 		this.lastName = lastName;
 		this.birthday = birthday;
 		this.salary = salary;
+	}
+
+	public Entity3() {
+
 	}
 
 	public Long getId() {

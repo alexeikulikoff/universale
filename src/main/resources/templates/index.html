@@ -1,11 +1,110 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UnoController</title>
+
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="/css/animate.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+
 </head>
-<body>
-<h1>Index page</h1>
-   
+
+<body class="">
+
+	<div id="wrapper">
+
+		<nav class="navbar-default navbar-static-side" role="navigation">
+			<div class="sidebar-collapse"></div>
+		</nav>
+
+		<div id="page-wrapper" class="gray-bg">
+			<div class="row border-bottom">
+				<nav class="navbar navbar-static-top" role="navigation"
+					style="margin-bottom: 0">
+					<div class="navbar-header"></div>
+				</nav>
+			</div>
+			<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>Один контроллер и три справочника</h2>
+					
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<div class="wrapper wrapper-content animated fadeInRight">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>Table №1</h5>
+								<div class="ibox-tools"></div>
+							</div>
+							<div class="ibox-content">
+
+								<table id="table1" class="display" style="width: 100%"></table>
+								<button id="button1" type="button"
+									class="btn btn-primary btn-sm">Add New Record</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>Table №2</h5>
+								<div class="ibox-tools"></div>
+							</div>
+							<div class="ibox-content">
+								<table id="table2" class="display" style="width: 100%"></table>
+								<button id="button2" type="button"
+									class="btn btn-primary btn-sm">Add New Record</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>Table №3</h5>
+								<div class="ibox-tools"></div>
+							</div>
+							<div class="ibox-content">
+
+								<table id="table3" class="display" style="width: 100%"></table>
+								<button id="button3" type="button"
+									class="btn btn-primary btn-sm">Add New Record</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="footer">
+			<div class="pull-right">
+			
+			</div>
+			<div>
+				<strong>Copyleft</strong> Example Company &copy; 2020
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+	<script src="/js/jquery/jquery.min.js"></script>
+	<script src="/js/bootstrap/bootstrap.min.js"></script>
+	<script src="/js/datatables/jquery.dataTables.min.js"></script>
+	<script src="/js/uuid/dist/umd/uuidv4.min.js"></script>
+	<script src="/js/app/main.js"></script>
+
+
 </body>
+
 </html>

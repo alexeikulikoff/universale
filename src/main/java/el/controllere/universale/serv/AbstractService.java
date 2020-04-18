@@ -6,13 +6,13 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import el.controllere.universale.domain.RootEntity;
-import el.controllere.universale.dto.RootDto;
+import el.controllere.universale.domain.UEntity;
+import el.controllere.universale.dto.UDto;
 import el.controllere.universale.exception.CustomException;
 
 abstract class AbstractService {
 
-	public RootEntity convertDto2Entity(RootDto dto, Class<? extends RootEntity> clazz) throws CustomException {
+	public UEntity convertDto2Entity(UDto dto, Class<? extends UEntity> clazz) throws CustomException {
 
 		Map<String, Method> mp = new HashMap<>();
 
@@ -52,7 +52,7 @@ abstract class AbstractService {
 
 		}
 
-		return (RootEntity) newEntity;
+		return (UEntity) newEntity;
 
 	}
 

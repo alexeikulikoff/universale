@@ -1,6 +1,6 @@
 package el.controllere.universale.dto;
 
-public class Dto1 implements RootDto {
+public class Dto1 implements UDto {
 
 	private Long id;
 	private String firstName;
@@ -35,6 +35,11 @@ public class Dto1 implements RootDto {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Override
+	public String toString() {
+		return "Dto1 [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 
 }

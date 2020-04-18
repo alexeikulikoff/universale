@@ -2,27 +2,34 @@ package el.controllere.universale;
 
 import org.springframework.data.repository.CrudRepository;
 
-import el.controllere.universale.domain.RootEntity;
-import el.controllere.universale.serv.RootService;
+import el.controllere.universale.domain.UEntity;
+import el.controllere.universale.resolvers.ContentResolver;
+import el.controllere.universale.serv.UService;
 
 public class Clazz {
 
 	private String entityName;
 
-	private Class<? extends RootService> serviceClass;
+	private Class<? extends UService> serviceClass;
+	private Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass;
+	private CrudRepository<? extends UEntity, ?> repository;
+	private Class<? extends ContentResolver> resolver;
 
-	private Class<? extends CrudRepository<? extends RootEntity, ?>> repositoryClass;
+	public static Clazz of(String entityName, Class<? extends UService> serviceClass,
+			Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass,
+			CrudRepository<? extends UEntity, ?> repository, Class<? extends ContentResolver> resolver) {
+		return new Clazz(entityName, serviceClass, repositoryClass, repository, resolver);
+	}
 
-	private CrudRepository<? extends RootEntity, ?> repository;
-
-	public Clazz(String entityName, Class<? extends RootService> serviceClass,
-			Class<? extends CrudRepository<? extends RootEntity, ?>> repositoryClass,
-			CrudRepository<? extends RootEntity, ?> repository) {
+	private Clazz(String entityName, Class<? extends UService> serviceClass,
+			Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass,
+			CrudRepository<? extends UEntity, ?> repository, Class<? extends ContentResolver> resolver) {
 		super();
 		this.entityName = entityName;
 		this.serviceClass = serviceClass;
 		this.repositoryClass = repositoryClass;
 		this.repository = repository;
+		this.resolver = resolver;
 	}
 
 	public String getEntityName() {
@@ -35,34 +42,43 @@ public class Clazz {
 		this.entityName = entityName;
 	}
 
-	public Class<? extends RootService> getServiceClass() {
+	public Class<? extends UService> getServiceClass() {
 
 		return serviceClass;
 	}
 
-	public void setServiceClass(Class<? extends RootService> serviceClass) {
+	public void setServiceClass(Class<? extends UService> serviceClass) {
 
 		this.serviceClass = serviceClass;
 	}
 
-	public Class<? extends CrudRepository<? extends RootEntity, ?>> getRepositoryClass() {
+	public Class<? extends CrudRepository<? extends UEntity, ?>> getRepositoryClass() {
 
 		return repositoryClass;
 	}
 
-	public void setRepositoryClass(Class<? extends CrudRepository<? extends RootEntity, ?>> repositoryClass) {
+	public void setRepositoryClass(Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass) {
 
 		this.repositoryClass = repositoryClass;
 	}
 
-	public CrudRepository<? extends RootEntity, ?> getRepository() {
+	public CrudRepository<? extends UEntity, ?> getRepository() {
 
 		return repository;
 	}
 
-	public void setRepository(CrudRepository<? extends RootEntity, ?> repository) {
+	public void setRepository(CrudRepository<? extends UEntity, ?> repository) {
 
 		this.repository = repository;
 	}
+
+	public Class<? extends ContentResolver> getResolver() {
+		return resolver;
+	}
+
+	public void setResolver(Class<? extends ContentResolver> resolver) {
+		this.resolver = resolver;
+	}
+
 
 }

@@ -2,7 +2,7 @@ package el.controllere.universale.dto;
 
 import java.time.LocalDate;
 
-public class Dto2 implements RootDto {
+public class Dto2 implements UDto {
 
 	private Long id;
 	private String firstName;
@@ -47,6 +47,12 @@ public class Dto2 implements RootDto {
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+
+	@Override
+	public String toString() {
+		return "Dto2 [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", birthday=" + birthday
+				+ "]";
 	}
 
 }
