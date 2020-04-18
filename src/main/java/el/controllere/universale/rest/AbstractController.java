@@ -23,15 +23,29 @@ import el.controllere.universale.serv.UService;
 
 abstract class AbstractController {
 
-	Map<String, Clazz> classMap = new HashMap<>();
+	private Map<String, Clazz> classMap = new HashMap<>();
 
 	public AbstractController(Repository1 repo1, Repository2 repo2, Repository3 repo3) {
 
-		classMap.put("Entity1", Clazz.of("Entity1", Service1.class, Repository1.class, repo1, ContentResolver1.class));
-		classMap.put("Entity2", Clazz.of("Entity2", Service2.class, Repository2.class, repo2, ContentResolver2.class));
-		classMap.put("Entity3", Clazz.of("Entity3", Service3.class, Repository3.class, repo3, ContentResolver3.class));
+		try {
+			addClass("Entity1", Clazz.of("Entity1", Service1.class, Repository1.class, repo1, ContentResolver1.class));
+			addClass("Entity2", Clazz.of("Entity2", Service2.class, Repository2.class, repo2, ContentResolver2.class));
+			addClass("Entity3", Clazz.of("Entity3", Service3.class, Repository3.class, repo3, ContentResolver3.class));
+		} catch (CustomException e) {
+
+			e.printStackTrace();
+		}
+
 	}
 
+	public void addClass(String entityName, Clazz clazz) throws CustomException {
+
+		if (classMap.containsKey(entityName)) {
+			throw new CustomException("Errro! ClassMap has already contains key " + entityName);
+		} else {
+			classMap.put(entityName, clazz);
+		}
+	}
 	protected Class<? extends ContentResolver> gerContentResolverClass(String name) {
 		return classMap.get(name).getResolver();
 	}
