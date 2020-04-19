@@ -15,7 +15,16 @@
 <style>
 .servlet {
  font-weight: bold;
- color : red;
+ color : rgb(126, 22, 22);
+
+};
+.entity{
+ font-weight: bold;
+color : rgb(126, 22, 22);
+
+}
+p{
+font-size: 14px !important;;
 
 }
 
@@ -52,7 +61,29 @@
 							</div>
 						</div>
 						<div class="ibox-content">
-							<p>
+						<p>
+						Предположим у нас есть много ( N > 10 ) неких сущностей, которые не являются композитными, то есть не включают в себя другие сущности.
+						Предположим еще, что наши "простые" сущности, будучи совершенно различными по своей сруктуре, 
+						обладают некой общностью в певедении, а именно: их нужно сохранять, удалять, показывать и обновлять. 
+						(Для примера ограничимся тремя методами - без "обновлять").
+						Это есть некий <strong>типовой</strong> набор, который подходит, например, для всевозможных справочников, словарей и т.п.</p> 						
+						<p>В таком случае мы не хотим создавать для каждой сущности свой контроллер с описанием четырех методов, равно как и создавать 
+						один контроллер на всех с описание каждого метода для каждой сущности.
+						Арифметика такая: если есть 100 сущностей, то нужно создать 400 методов плюс еще 400 для тестирования, итого 800 (?). Ну как бэ....</p>
+						
+						<p>
+						Так вот, коллеги, а не замахнуться ли нам на Вильяма нашего Шекспира, понимаете ли...
+						</p>
+						 <p>
+						Ниже описание контроллера для обработки всех <strong>типовой</strong> сущностей скопом, как говорится, в один присест.
+						Используется тот факт, что все сущности обладают схожим поведением.
+						</p>
+						 <p>
+						Квинтэссенцией всего этого дела является вот такая структура:
+						</p>
+						</p>
+						
+						
 							<div class="col-lg-10">
 								<pre>
 									<code class="java">
@@ -65,10 +96,21 @@ public AbstractController(Repository1 repo1, Repository2 repo2, Repository3 repo
 							</code>
 								</pre>
 							</div>
-							</p>
+<div class="col-lg-12">
+<p>Она формируется при инициализации контроллера, хранит в себе набор неких классов, которые можно извлечь по ключам
+ <span class="servlet">Entity1</span>,&nbsp; <span class="servlet">Entity2</span>,&nbsp;<span class="servlet">Entity2</span>.
+
+</p>
+<p>Рассомтрим наиболее сложный метод <strong>сохранить</strong>. Для этого на фронтэнде формируем примерно вот такой json объект:
+
+</p>				
+</div>		
+						
 							<div class="col-lg-10">
 								<pre>
 						 <code class="javascript">
+main.js
+						 
 data = { 
 	name : "Entity1",
 	content : {
@@ -79,12 +121,35 @@ data = {
 							</code>
 							</pre>
 							</div>
-							<div class="col-lg-10">
-								<p>some text</p>
+							<div class="col-lg-12">
+								<p>Собственно говоря, вот и вся <strong>идея метода</strong> - <strong>передавать вместе с объектом название соответсвующей ему сущности или 
+								некий ключ</strong>. Остальное дело техники. </p>
+								<p>Запрост POST выглядит как обычно:</p>
 							</div>
 							<div class="col-lg-10">
 								<pre>
 							<code class="java">
+main.js
+							
+ajax({
+type: "POST",
+	url:  "save",
+	data: JSON.stringify(data),
+	contentType : "application/json",
+	dataType: "json",
+	...
+
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-12">
+								<p>Примерно вот такая "дэтэошка":</p>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="javascript">
+Dto1.class										
+							
 public class Dto1 implements UDto{
 	private Long id;
 	private String firstName;
@@ -93,45 +158,38 @@ public class Dto1 implements UDto{
 							  </code>
 							</pre>
 							</div>
-							<div class="col-lg-10">
-								<p>some text</p>
-							</div>
-							<div class="col-lg-10">
-								<pre>
-							<code class="javascript">
-ajax({
-type: "POST",
-	url:  "save",
-	data: JSON.stringify(data),
-	contentType : "application/json",
-	dataType: "json",
-	...
-							  </code>
-							</pre>
-							</div>
+<div class="col-lg-12">
+<p>И примерно вот такой метод:</p>
+</div>							
 							<div class="col-lg-10">
 								<pre>
 							<code class="java">
 @PostMapping("/save")
-public @ResponseBody Response&lt;UEntity&gt; save(@RequestBody <strong>SomePredefinedDataTransferObject</strong> dto )
+public @ResponseBody Response&lt;UEntity&gt; save(@RequestBody <span class="servlet">SomePredefinedDataTransferObject</span> dto )
 							  </code>
 							</pre>
 							</div>
-							<div class="col-lg-10">
-								<div class="col-lg-10">
-									<p>some text</p>
-								</div>
+							<div class="col-lg-12">
+								
+<p>Однако, здесь возникает вопрос: а как быть с классом <span class="servlet">SomePredefinedDataTransferObject</span> если 
+по определению в метод <span class="servlet">save</span> должен прилелеть заранее <strong>не известный</strong> объект?</p>
+<p>А вот так. Используем наш старый, добрый <span class="servlet">HttpServletRequest</span></p>
+						
+								
 							</div>
+							
 							<div class="col-lg-10">
 								<pre>
 							<code class="java">
+UnoController.java	
+
 @PostMapping("/save")
 public @ResponseBody Response&lt;UEntity&gt; save(<span class="servlet">HttpServletRequest</span> request)
 							  </code>
 							</pre>
 							</div>
 							<div class="col-lg-10">
-								<p>some text</p>
+								<p>Далее путем не хитрых манипуляций достаем из него имя нашей сущности и набор соответсвующий классов. </p>
 							</div>
 							<div class="col-lg-10">
 								<pre>
@@ -150,6 +208,17 @@ public @ResponseBody Response &lt;UEntity&gt; save(HttpServletRequest request) {
 							  </code>
 							</pre>
 							</div>
+<div class="col-lg-12">
+		<p>Например, для ключа  <span class="servlet">Entity1</span> значение <span class="servlet"> nameResolver </span> будет равно 
+		<span class="servlet">Entity1</span>, а <span class="servlet"> contentResolver.getContent()</span> будет содержать объект 
+		<span class="servlet">Dto1</span>
+		</p>
+</div>							
+<div class="col-lg-12">
+		<p>Далее, используя  значение <span class="servlet"> nameResolver </span> создаем соответсвующую службу: 
+		</p>
+</div>							
+							
 							<div class="col-lg-10">
 							<pre>
   							  <code class="java">
@@ -160,7 +229,41 @@ Optional &lt;UEntity&gt; result = service.save(contentResolver.getContent());
 							  </code>
 							</pre>
 							</div>
-						
+<div class="col-lg-12">
+		<p>Метод <span class="servlet"> getService </span> выглядит так: 
+		</p>
+</div>								
+<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+AbstractController.java
+  							  
+protected UService getService(String entityName) throws CustomException {
+
+	Clazz clazz = classMap.get(entityName);
+	CrudRepository&lt;?, ?&gt; repository = clazz.getRepository();
+	Class&lt;? extends UService&gt; serviceClass = clazz.getServiceClass();
+	Constructor&lt;?&gt; constructor;
+	UService service;
+	try {
+		constructor = serviceClass.getConstructor(clazz.getRepositoryClass());
+		try {
+			service = (UService) constructor.newInstance(repository);
+			return service;
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			throw new CustomException(e.getMessage());
+		}
+	} catch (NoSuchMethodException | SecurityException e) {
+		throw new CustomException(e.getMessage());
+	}
+}
+							  </code>
+							</pre>
+							</div>					
+<div class="col-lg-12">
+	<p>Метод <span class="servlet">save </span> в <span class="servlet">Servicve1</span> вышлядит примерно так:  	
+</div>		
 							
 							<div class="col-lg-10">
 							<pre>
@@ -180,7 +283,19 @@ public Optional&lt;UEntity&gt; save(UDto dto) throws CustomException {
 							  </code>
 							</pre>
 							</div>							
-							
+<div class="col-lg-12">
+	<p>Таким образом, в кадом классе типа  <span class="servlet">Servicve1</span> мы оперируем уже с конкретными
+	<span class="servlet">DTO</span>
+	 и  <span class="servlet">Entity</span>  
+	</p>
+	<p>Пара слов про  отношения между  	<span class="servlet">Entity</span> и 	<span class="servlet">DTO</span>.
+	 Должны ли они совпадать друг с другом или не должны? Вопрос конечно <strong>"философический"</strong>. </p>
+	<p>Если они совпадают - метод в метод, свойство в свойство, имя в имя, тип в тип, то используем такой метод 
+	<span class="servlet">toEntity</span>
+	 </p>
+	 
+	 
+</div>								
 							<div class="col-lg-10">
 							<pre>
   							  <code class="java">
@@ -193,6 +308,14 @@ public UEntity toEntity(UDto dto, Class&lt;? extends UEntity&gt; clazz)
 							  </code>
 							</pre>
 							</div>
+<div class="col-lg-10">							
+<p>в котором преобразование ведется "на лету" без относительно числа полей , типов и пр. 
+	 </p>							
+</div>							
+<div class="col-lg-10">							
+<p>Если вдруг, по каким-то причнам, соответсвия нет, то используем такой метод
+	 </p>							
+</div>	
 					<div class="col-lg-10">
 							<pre>
   							  <code class="java">
@@ -203,6 +326,10 @@ public UEntity toEntity(UDto dto, Function&lt;UDto, UEntity&gt; func) {
 							  </code>
 							</pre>
 							</div>
+<div class="col-lg-10">							
+<p>И, соответсвенно,  метод   <span class="servlet">save</span>
+	 </p>							
+</div>								
 						<div class="col-lg-10">
 							<pre>
   							  <code class="java">
@@ -233,7 +360,26 @@ public Optional<UEntity> save(UDto dto) throws CustomException {
 							  </code>
 							</pre>
 							</div>
-							
+<div class="col-lg-10">							
+<p>То есть для каждого конкретного, <strong>не типового</strong> случая определяем свой метод преобразования и вперед Франиция! 
+На общей картине 
+сие никак не отразится и "рояля" не сыграет.... 
+<p>Методы "показать все", "удалить" - тривиальны и  принципиально не отличаются. 
+</p>
+</p>								
+<p><strong>Вывод:</strong></p> 
+<p>Допустим некий добрый заказчик заказал создать ему 100 сущностей...
+ Внутренний голос шепчет, что 90% из них, а то и все 100% 
+будут типовыми. 
+Хотя, конечно,  может попасться  заказчик с богатой фантазаей, - захечет  и то и се... 
+Допустим... Допустим 10% придется на нетиповые сущности с неким экзотическим поведением. 
+Тогда имеем  следуещее: 90 типовых штук - в 1 контроллер, а 10 - ну хрен с ними, в еще 10 индивидуальных. 
+Итого 11 контроллеров и 88 методов. То есть со веми "хотелками" прирост  миниму на порядок... 
+Без хотелок  - на два порядка. 
+</p>
+
+ 						
+</div>							
 							<div class="col-lg-12">
 							<a href="/">Comeback</a>
 							</div>

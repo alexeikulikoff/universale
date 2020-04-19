@@ -1,6 +1,5 @@
 package el.controllere.universale.rest;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,28 +52,27 @@ public class UnoController extends AbstractController {
 			json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
 			Gson gson = new Gson();
 			NameResolver nameResolver = gson.fromJson(json, NameResolver.class);
-			ContentResolver contentResolver = gson.fromJson(json, gerContentResolverClass(nameResolver.getName()));
-			response.setName(nameResolver.getName());
+			String entityName = nameResolver.getName();
+			ContentResolver contentResolver = gson.fromJson(json, gerContentResolverClass(entityName));
+			response.setName(entityName);
 			try {
-				UService service = getService(nameResolver.getName());
+				UService service = getService(entityName);
 				Optional<UEntity> result = service.save(contentResolver.getContent());
 				if (result.isPresent()) {
 					response.setMessage("POST request is successful, data is saved");
 					response.setContent(result.get());
-					return response;
+
 				} else {
 					response.setMessage("Error!");
-					return response;
 				}
 
 			} catch (CustomException e) {
 				response.setMessage("Error!");
-				return response;
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			response.setMessage("Error!");
-			return response;
 		}
+		return response;
 	}
 
 	@PostMapping("/delete")
