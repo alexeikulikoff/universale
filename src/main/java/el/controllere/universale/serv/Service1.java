@@ -19,20 +19,13 @@ public class Service1 extends AbstractService implements UService {
 
 	@Override
 	public Optional<UEntity> save(UDto dto) throws CustomException {
-
 		Entity1 e1 = (Entity1) toEntity(dto, Entity1.class);
-
 		if (e1 != null) {
-
 			Entity1 result = repository.save(e1);
-
 			return Optional.ofNullable(result);
-
 		} else {
-
 			return Optional.empty();
 		}
-
 	}
 
 	@Override

@@ -23,9 +23,7 @@ public class Service3 extends AbstractService implements UService {
 
 	@Override
 	public Optional<UEntity> save(UDto dto) throws CustomException {
-
 		Random rand = new Random();
-
 		Function<UDto, UEntity> fn = (u) -> {
 			Dto3 dto3 = (Dto3) u;
 			Entity3 en = new Entity3();

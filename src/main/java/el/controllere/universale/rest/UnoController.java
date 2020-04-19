@@ -40,6 +40,10 @@ public class UnoController extends AbstractController {
 		return "index";
 	}
 
+	@RequestMapping("/help")
+	public String help() {
+		return "help";
+	}
 
 	@PostMapping("/save")
 	public @ResponseBody Response<UEntity> save(HttpServletRequest request) {

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UnoController</title>
+
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="/css/animate.css" rel="stylesheet">
+<link href="/css/default.css" rel="stylesheet">
+<link href="/css/style.css" rel="stylesheet">
+<style>
+.servlet {
+ font-weight: bold;
+ color : red;
+
+}
+
+</style>
+</head>
+
+<body>
+	<nav class="navbar-default navbar-static-side" role="navigation">
+		<div class="sidebar-collapse"></div>
+	</nav>
+
+	<div id="page-wrapper" class="gray-bg">
+		<div class="row border-bottom">
+			<nav class="navbar navbar-static-top" role="navigation"
+				style="margin-bottom: 0">
+				<div class="navbar-header"></div>
+			</nav>
+		</div>
+		<div class="row wrapper border-bottom white-bg page-heading">
+			<div class="col-lg-10">
+				<h2>Подробности</h2>
+
+			</div>
+			<div class="col-lg-2"></div>
+		</div>
+		<div class="wrapper wrapper-content animated fadeInRight">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="ibox float-e-margins">
+						<div class="ibox-title">
+							<h5>Исходный код <a href="https://github.com/alexeikulikoff/universale.git">здесь </a> (Github)</h5>
+							<div class="ibox-tools">
+							
+							</div>
+						</div>
+						<div class="ibox-content">
+							<p>
+							<div class="col-lg-10">
+								<pre>
+									<code class="java">
+private Map&lt;String, Clazz&gt; classMap = new HashMap&lt;&gt;();
+public AbstractController(Repository1 repo1, Repository2 repo2, Repository3 repo3) {
+	classMap.put("Entity1", Clazz.of(Service1.class, Repository1.class, repo1, ContentResolver1.class));
+	classMap.put("Entity2", Clazz.of(Service2.class, Repository2.class, repo2, ContentResolver2.class));
+	classMap.put("Entity3", Clazz.of(Service3.class, Repository3.class, repo3, ContentResolver3.class));
+}
+							</code>
+								</pre>
+							</div>
+							</p>
+							<div class="col-lg-10">
+								<pre>
+						 <code class="javascript">
+data = { 
+	name : "Entity1",
+	content : {
+		firstName : getFirstName(),
+		lastName :  getLastName()
+	}	
+}
+							</code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+								<p>some text</p>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="java">
+public class Dto1 implements UDto{
+	private Long id;
+	private String firstName;
+	private String lastName;
+}
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+								<p>some text</p>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="javascript">
+ajax({
+type: "POST",
+	url:  "save",
+	data: JSON.stringify(data),
+	contentType : "application/json",
+	dataType: "json",
+	...
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="java">
+@PostMapping("/save")
+public @ResponseBody Response&lt;UEntity&gt; save(@RequestBody <strong>SomePredefinedDataTransferObject</strong> dto )
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+								<div class="col-lg-10">
+									<p>some text</p>
+								</div>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="java">
+@PostMapping("/save")
+public @ResponseBody Response&lt;UEntity&gt; save(<span class="servlet">HttpServletRequest</span> request)
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+								<p>some text</p>
+							</div>
+							<div class="col-lg-10">
+								<pre>
+							<code class="language-java">
+UnoController.java							
+							
+@PostMapping("/save")
+public @ResponseBody Response &lt;UEntity&gt; save(HttpServletRequest request) {
+	String json;
+	Response&lt;UEntity&gt;  response = new Response&lt;&gt; ();
+	try {
+		json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+		Gson gson = new Gson();
+		NameResolver nameResolver = gson.fromJson(json, NameResolver.class);
+		ContentResolver contentResolver = gson.fromJson(json, gerContentResolverClass(nameResolver.getName()));
+							  </code>
+							</pre>
+							</div>
+							<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+UnoController.java  							 
+  							  
+UService service = getService(nameResolver.getName());
+Optional &lt;UEntity&gt; result = service.save(contentResolver.getContent());
+							  </code>
+							</pre>
+							</div>
+						
+							
+							<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+Service1.java
+  							  
+@Override
+public Optional&lt;UEntity&gt; save(UDto dto) throws CustomException {
+	<strong>Entity1</strong> e1 = (<strong>Entity1</strong>) toEntity(dto, <strong>Entity1</strong>.class);
+	if (e1 != null) {
+		<strong>Entity1</strong> result = repository.save(e1);
+		return Optional.ofNullable(result);
+	} else {
+		return Optional.empty();
+	}
+}
+							  </code>
+							</pre>
+							</div>							
+							
+							<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+AbstractService.java
+  							  
+public UEntity toEntity(UDto dto, Class&lt;? extends UEntity&gt; clazz)
+		...
+		setter.invoke(newEntity, getter.invoke(dto));
+		...
+							  </code>
+							</pre>
+							</div>
+					<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+public UEntity toEntity(UDto dto, Function&lt;UDto, UEntity&gt; func) {
+		return func.apply(dto);
+	}
+}
+							  </code>
+							</pre>
+							</div>
+						<div class="col-lg-10">
+							<pre>
+  							  <code class="java">
+Service3.java
+  							  
+@Override
+public Optional<UEntity> save(UDto dto) throws CustomException {
+	
+	Random rand = new Random();
+	Function<UDto, UEntity> fn = (u) -> {
+		Dto3 dto3 = (Dto3) u;
+		Entity3 en = new Entity3();
+		en.setFirstName(dto3.getFirstName());
+		en.setLastName(dto3.getLastName());
+		en.setSalary(Long.valueOf(rand.nextInt(9999)));
+		en.setBirthday(dto3.getBirthday());
+		return en;
+	};
+		
+	Entity3 e3 = (Entity3) toEntity(dto, <strong>fn</strong>);
+	if (e3 != null) {
+		Entity3 result = repository.save(e3);
+		return Optional.ofNullable(result);
+	} else {
+		return Optional.empty();
+	}
+}
+							  </code>
+							</pre>
+							</div>
+							
+							<div class="col-lg-12">
+							<a href="/">Comeback</a>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="/js/app/highlight.pack.js"></script>
+
+	<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
+
+

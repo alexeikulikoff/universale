@@ -8,39 +8,31 @@ import el.controllere.universale.serv.UService;
 
 public class Clazz {
 
-	private String entityName;
+
 
 	private Class<? extends UService> serviceClass;
 	private Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass;
 	private CrudRepository<? extends UEntity, ?> repository;
 	private Class<? extends ContentResolver> resolver;
 
-	public static Clazz of(String entityName, Class<? extends UService> serviceClass,
+	public static Clazz of( Class<? extends UService> serviceClass,
 			Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass,
 			CrudRepository<? extends UEntity, ?> repository, Class<? extends ContentResolver> resolver) {
-		return new Clazz(entityName, serviceClass, repositoryClass, repository, resolver);
+		return new Clazz(serviceClass, repositoryClass, repository, resolver);
 	}
 
-	private Clazz(String entityName, Class<? extends UService> serviceClass,
+	private Clazz(
+			Class<? extends UService> serviceClass,
 			Class<? extends CrudRepository<? extends UEntity, ?>> repositoryClass,
 			CrudRepository<? extends UEntity, ?> repository, Class<? extends ContentResolver> resolver) {
 		super();
-		this.entityName = entityName;
+	
 		this.serviceClass = serviceClass;
 		this.repositoryClass = repositoryClass;
 		this.repository = repository;
 		this.resolver = resolver;
 	}
 
-	public String getEntityName() {
-
-		return entityName;
-	}
-
-	public void setEntityName(String entityName) {
-
-		this.entityName = entityName;
-	}
 
 	public Class<? extends UService> getServiceClass() {
 

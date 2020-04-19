@@ -27,14 +27,9 @@ abstract class AbstractController {
 
 	public AbstractController(Repository1 repo1, Repository2 repo2, Repository3 repo3) {
 
-		try {
-			addClass("Entity1", Clazz.of("Entity1", Service1.class, Repository1.class, repo1, ContentResolver1.class));
-			addClass("Entity2", Clazz.of("Entity2", Service2.class, Repository2.class, repo2, ContentResolver2.class));
-			addClass("Entity3", Clazz.of("Entity3", Service3.class, Repository3.class, repo3, ContentResolver3.class));
-		} catch (CustomException e) {
-
-			e.printStackTrace();
-		}
+		classMap.put("Entity1", Clazz.of(Service1.class, Repository1.class, repo1, ContentResolver1.class));
+		classMap.put("Entity2", Clazz.of(Service2.class, Repository2.class, repo2, ContentResolver2.class));
+		classMap.put("Entity3", Clazz.of(Service3.class, Repository3.class, repo3, ContentResolver3.class));
 
 	}
 
