@@ -29,7 +29,6 @@ import el.controllere.universale.serv.UService;
 @Controller
 public class UnoController extends AbstractController {
 
-
 	public UnoController(Repository1 repo1, Repository2 repo2, Repository3 repo3) {
 		super(repo1, repo2, repo3);
 	}
@@ -37,6 +36,11 @@ public class UnoController extends AbstractController {
 	@RequestMapping("/")
 	public String index() {
 		return "index";
+	}
+
+	@RequestMapping("/table")
+	public String table() {
+		return "table";
 	}
 
 	@RequestMapping("/help")
@@ -107,6 +111,5 @@ public class UnoController extends AbstractController {
 		}
 		return result;
 	}
-
 
 }
